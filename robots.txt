@@ -1,0 +1,4 @@
+# Maquettes de demonstration portant le nom d'entreprises reelles.
+# Elles ne doivent apparaitre dans aucun moteur de recherche.
+User-agent: *
+Disallow: /

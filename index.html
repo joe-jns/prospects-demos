@@ -1,0 +1,2204 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Maquettes de prospection — 74 couvreurs</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#F6F3EF;--panel:#fff;--ink:#291D17;--muted:#7a6a5e;--line:#e5ddd3;
+  --accent:#F4823B;--ok:#3f7d54;--warn:#b8722a}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 ui-sans-serif,system-ui,'Segoe UI',sans-serif;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:1280px;margin:0 auto;padding:48px 28px 80px}
+header h1{font-size:30px;letter-spacing:-.02em;margin-bottom:6px}
+header p{color:var(--muted);max-width:70ch}
+.chiffres{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 8px}
+.chip{background:var(--panel);border:1px solid var(--line);border-radius:999px;
+  padding:7px 15px;font-size:13.5px}
+.chip b{font-variant-numeric:tabular-nums}
+.chip.ok b{color:var(--ok)} .chip.warn b{color:var(--warn)}
+.barre{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:22px 0 26px;
+  position:sticky;top:0;background:var(--bg);padding:12px 0;z-index:5;border-bottom:1px solid var(--line)}
+.barre input{flex:1;min-width:220px;padding:9px 13px;border:1px solid var(--line);
+  border-radius:9px;background:var(--panel);font:inherit;color:inherit}
+.barre button{padding:9px 14px;border:1px solid var(--line);background:var(--panel);
+  border-radius:9px;font:inherit;cursor:pointer;color:var(--muted)}
+.barre button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.grille{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:20px}
+.carte{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  display:flex;flex-direction:column}
+.carte img{width:100%;aspect-ratio:1440/1000;object-fit:cover;object-position:top;display:block;
+  border-bottom:1px solid var(--line);background:#efe9e2}
+.corps{padding:15px 16px 16px;display:flex;flex-direction:column;gap:9px;flex:1}
+.nom{font-weight:650;line-height:1.25;overflow-wrap:anywhere}
+.ville{color:var(--muted);font-size:13.5px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;font-size:12px;color:var(--muted)}
+.tag{border:1px solid var(--line);border-radius:6px;padding:2px 7px;white-space:nowrap}
+.tag.rouge{border-color:#e6c4b4;background:#fdf3ee;color:var(--warn)}
+.actions{display:flex;gap:8px;margin-top:auto;padding-top:4px;flex-wrap:wrap}
+.actions a,.actions button{font:inherit;font-size:13.5px;padding:8px 12px;border-radius:9px;
+  border:1px solid var(--line);background:var(--bg);color:var(--ink);text-decoration:none;cursor:pointer}
+.actions .primaire{background:var(--ink);color:#fff;border-color:var(--ink)}
+.manques{font-size:12.5px;color:var(--warn);border-top:1px dashed var(--line);padding-top:8px}
+.manques li{margin-left:15px}
+dialog{border:none;border-radius:14px;padding:0;max-width:620px;width:calc(100% - 40px);
+  background:var(--panel);color:var(--ink)}
+dialog::backdrop{background:rgba(41,29,23,.5)}
+.dlg-tete{display:flex;justify-content:space-between;align-items:center;gap:14px;
+  padding:16px 18px;border-bottom:1px solid var(--line)}
+.dlg-tete strong{font-size:15px}
+dialog pre{padding:18px;white-space:pre-wrap;font:14px/1.6 ui-monospace,Menlo,Consolas,monospace;
+  max-height:52vh;overflow:auto}
+.dlg-pied{display:flex;gap:8px;justify-content:flex-end;padding:0 18px 18px}
+.dlg-pied button{font:inherit;font-size:13.5px;padding:8px 13px;border-radius:9px;
+  border:1px solid var(--line);background:var(--bg);cursor:pointer;color:inherit}
+.dlg-pied .primaire{background:var(--ink);color:#fff;border-color:var(--ink)}
+.vide{color:var(--muted);padding:40px 0}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#17110d;--panel:#211914;--ink:#f2e9e0;--muted:#a5928400;--line:#33261e}
+  :root{--muted:#a59284}
+  .tag.rouge{background:#2c1d14;border-color:#5a3a23;color:#e0a06a}
+}
+</style></head><body>
+<div class="wrap">
+<header>
+  <h1>Maquettes de prospection</h1>
+  <p>Une page d’accueil refaite pour chacun des 74 couvreurs retenus, à partir du contenu
+  de son site actuel. Publié sur <a href="https://joe-jns.github.io/prospects-demos/">https://joe-jns.github.io/prospects-demos</a> — en
+  <code>noindex</code> et <code>robots.txt Disallow</code>&nbsp;: aucun moteur ne les
+  référencera. Les avis clients sont des placeholders, à remplacer par les vrais avis
+  Google avant toute mise en ligne réelle.</p>
+  <div class="chiffres">
+    <span class="chip"><b>74</b> maquettes générées</span>
+    <span class="chip ok"><b>74</b> sans débordement (1440 et 390 px)</span>
+    <span class="chip ok"><b>74</b> sans erreur console ni 404</span>
+    <span class="chip warn"><b>0</b> sans prestation reprise</span>
+    <span class="chip warn"><b>64</b> avec au moins un manque</span>
+  </div>
+</header>
+<div class="barre">
+  <input id="q" type="search" placeholder="Filtrer par nom, ville ou slug…" aria-label="Filtrer">
+  <button data-f="tous" aria-pressed="true">Toutes</button>
+  <button data-f="complets" aria-pressed="false">Sans manque</button>
+  <button data-f="manques" aria-pressed="false">Avec manques</button>
+  <span id="compte" class="ville"></span>
+</div>
+<div class="grille">
+<article class="carte" data-rech="3a etanchéité marseille 3a-etancheite" data-manques="1" data-nom="3A Etanchéité">
+  <a href="3a-etancheite/" target="_blank" rel="noopener">
+    <img src="vignettes/3a-etancheite.jpg" alt="Aperçu de la maquette 3A Etanchéité" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">3A Etanchéité</div>
+    <div class="ville">Marseille · La Penne-sur-Huveaune, Plan-de-Cuques, Septèmes-les-Vallons</div>
+    <div class="tags"><span class="tag">2 prestations</span><span class="tag">11 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    <div class='manques'><ul><li>seulement 2 prestation(s) reprise(s)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="3a-etancheite/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://3a-etancheite.com/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Marseille, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/3a-etancheite
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="all in one construct nivelles allinoneconstruct" data-manques="1" data-nom="All In One Construct">
+  <a href="allinoneconstruct/" target="_blank" rel="noopener">
+    <img src="vignettes/allinoneconstruct.jpg" alt="Aperçu de la maquette All In One Construct" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">All In One Construct</div>
+    <div class="ville">Nivelles · Arquennes, Lillois-Witterzée, Feluy</div>
+    <div class="tags"><span class="tag">6 prestations</span><span class="tag">6 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="allinoneconstruct/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://allinoneconstruct.group/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un toiturier à Nivelles, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/allinoneconstruct
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="arcas - constructeur de maisons, villas et bâtiments - bassin d&#x27;arcachon et lège cap ferret lège-cap-ferret arcas-sa" data-manques="1" data-nom="ARCAS - Constructeur de maisons, villas et bâtiments - Bassin d&#x27;Arcachon et Lège Cap Ferret">
+  <a href="arcas-sa/" target="_blank" rel="noopener">
+    <img src="vignettes/arcas-sa.jpg" alt="Aperçu de la maquette ARCAS - Constructeur de maisons, villas et bâtiments - Bassin d&#x27;Arcachon et Lège Cap Ferret" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">ARCAS - Constructeur de maisons, villas et bâtiments - Bassin d&#x27;Arcachon et Lège Cap Ferret</div>
+    <div class="ville">Lège-Cap-Ferret · Andernos-les-Bains, Arès, Arcachon</div>
+    <div class="tags"><span class="tag">4 prestations</span><span class="tag">4 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>prestations retrouvées hors page d’accueil (termes employés dans leur texte)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="arcas-sa/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.arcas-sa.com/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Lège-Cap-Ferret, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/arcas-sa
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="art deco system sainte-colombe art-deco-system" data-manques="1" data-nom="Art Deco System">
+  <a href="art-deco-system/" target="_blank" rel="noopener">
+    <img src="vignettes/art-deco-system.jpg" alt="Aperçu de la maquette Art Deco System" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Art Deco System</div>
+    <div class="ville">Sainte-Colombe · Vienne, Saint-Romain-en-Gal, Saint-Cyr-sur-le-Rhône</div>
+    <div class="tags"><span class="tag">1 prestation</span><span class="tag">6 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>seulement 1 prestation(s) reprise(s)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="art-deco-system/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="http://www.art-deco-system.fr" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Sainte-Colombe, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/art-deco-system
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="artisan bacqueville poissy bacqueville-peintre-batiment" data-manques="1" data-nom="Artisan Bacqueville">
+  <a href="bacqueville-peintre-batiment/" target="_blank" rel="noopener">
+    <img src="vignettes/bacqueville-peintre-batiment.jpg" alt="Aperçu de la maquette Artisan Bacqueville" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Artisan Bacqueville</div>
+    <div class="ville">Poissy · Villennes-sur-Seine, Carrières-sous-Poissy, Chambourcy</div>
+    <div class="tags"><span class="tag">1 prestation</span><span class="tag">4 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>seulement 1 prestation(s) reprise(s)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="bacqueville-peintre-batiment/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://bacqueville-peintre-batiment.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Poissy, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/bacqueville-peintre-batiment
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="artisan peintre soyaux : peinture intérieur toiture façade démoussage réparation gouttière ravalement soyaux artisanpeintresoyaux-peintureinterieur-toiture-facade" data-manques="1" data-nom="Artisan Peintre Soyaux : Peinture Intérieur Toiture Façade Démoussage Réparation Gouttière Ravalement">
+  <a href="artisanpeintresoyaux-peintureinterieur-toiture-facade/" target="_blank" rel="noopener">
+    <img src="vignettes/artisanpeintresoyaux-peintureinterieur-toiture-facade.jpg" alt="Aperçu de la maquette Artisan Peintre Soyaux : Peinture Intérieur Toiture Façade Démoussage Réparation Gouttière Ravalement" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Artisan Peintre Soyaux : Peinture Intérieur Toiture Façade Démoussage Réparation Gouttière Ravalement</div>
+    <div class="ville">Soyaux · L&#x27;Isle-d&#x27;Espagnac, Magnac-sur-Touvre, Puymoyen</div>
+    <div class="tags"><span class="tag">3 prestations</span><span class="tag">5 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="artisanpeintresoyaux-peintureinterieur-toiture-facade/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://artisanpeintresoyaux-peintureinterieur-toiture-facade.ovh" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Soyaux, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/artisanpeintresoyaux-peintureinterieur-toiture-facade
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="atelier toiture : couvreur libourne - réparation toit, isolation, démoussage toiture, etanchéité libourne atelier-toiture" data-manques="1" data-nom="Atelier Toiture : Couvreur Libourne - Réparation Toit, Isolation, Démoussage Toiture, Etanchéité">
+  <a href="atelier-toiture/" target="_blank" rel="noopener">
+    <img src="vignettes/atelier-toiture.jpg" alt="Aperçu de la maquette Atelier Toiture : Couvreur Libourne - Réparation Toit, Isolation, Démoussage Toiture, Etanchéité" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Atelier Toiture : Couvreur Libourne - Réparation Toit, Isolation, Démoussage Toiture, Etanchéité</div>
+    <div class="ville">Libourne · Arveyres, Saint-Émilion, Génissac</div>
+    <div class="tags"><span class="tag">5 prestations</span><span class="tag">6 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="atelier-toiture/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://atelier-toiture.ovh" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Libourne, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/atelier-toiture
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="avenir habitat liévin avenirhabitat" data-manques="1" data-nom="Avenir Habitat">
+  <a href="avenirhabitat/" target="_blank" rel="noopener">
+    <img src="vignettes/avenirhabitat.jpg" alt="Aperçu de la maquette Avenir Habitat" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Avenir Habitat</div>
+    <div class="ville">Liévin · Angres, Éleu-dit-Leauwette, Grenay</div>
+    <div class="tags"><span class="tag">2 prestations</span><span class="tag">9 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>seulement 2 prestation(s) reprise(s)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="avenirhabitat/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.avenirhabitat.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Liévin, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/avenirhabitat
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="axtera gonesse axtera" data-manques="1" data-nom="Axtera">
+  <a href="axtera/" target="_blank" rel="noopener">
+    <img src="vignettes/axtera.jpg" alt="Aperçu de la maquette Axtera" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Axtera</div>
+    <div class="ville">Gonesse · Le Thillay, Arnouville, Garges-lès-Gonesse</div>
+    <div class="tags"><span class="tag">4 prestations</span><span class="tag">22 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    <div class='manques'><ul><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="axtera/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.axtera.fr" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Gonesse, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/axtera
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="barsun roof system blanzac barsun" data-manques="1" data-nom="Barsun Roof System">
+  <a href="barsun/" target="_blank" rel="noopener">
+    <img src="vignettes/barsun.jpg" alt="Aperçu de la maquette Barsun Roof System" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Barsun Roof System</div>
+    <div class="ville">Blanzac · Bellac, Le Dorat, Magnac-Laval</div>
+    <div class="tags"><span class="tag">1 prestation</span><span class="tag">9 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>seulement 1 prestation(s) reprise(s)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="barsun/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.barsun.fr" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Blanzac, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/barsun
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="c3 bois florennes c3bois" data-manques="1" data-nom="C3 Bois">
+  <a href="c3bois/" target="_blank" rel="noopener">
+    <img src="vignettes/c3bois.jpg" alt="Aperçu de la maquette C3 Bois" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">C3 Bois</div>
+    <div class="ville">Florennes · Morialmé, Fraire, Philippeville</div>
+    <div class="tags"><span class="tag">3 prestations</span><span class="tag">15 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    <div class='manques'><ul><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="c3bois/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.c3bois.be" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un toiturier à Florennes, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/c3bois
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="charpentier couvreur donchez philippe auvers-sur-oise charpentierdelavallee" data-manques="1" data-nom="Charpentier Couvreur Donchez Philippe">
+  <a href="charpentierdelavallee/" target="_blank" rel="noopener">
+    <img src="vignettes/charpentierdelavallee.jpg" alt="Aperçu de la maquette Charpentier Couvreur Donchez Philippe" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Charpentier Couvreur Donchez Philippe</div>
+    <div class="ville">Auvers-sur-Oise · Butry-sur-Oise, Valmondois, Ennery</div>
+    <div class="tags"><span class="tag">7 prestations</span><span class="tag">5 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="charpentierdelavallee/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.charpentierdelavallee.com" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Auvers-sur-Oise, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/charpentierdelavallee
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="chevalier - guindé, bâtiment et charpente métallique nieulle-sur-seudre chevalier-guinde" data-manques="1" data-nom="Chevalier - Guindé, Bâtiment et Charpente métallique">
+  <a href="chevalier-guinde/" target="_blank" rel="noopener">
+    <img src="vignettes/chevalier-guinde.jpg" alt="Aperçu de la maquette Chevalier - Guindé, Bâtiment et Charpente métallique" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Chevalier - Guindé, Bâtiment et Charpente métallique</div>
+    <div class="ville">Nieulle-sur-Seudre · Chaillevette, Saint-Just-Luzac, Le Gua</div>
+    <div class="tags"><span class="tag">3 prestations</span><span class="tag">5 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="chevalier-guinde/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.chevalier-guinde.com" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Nieulle-sur-Seudre, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/chevalier-guinde
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="coursimault rénovation viarmes coursimaultrenovation" data-manques="1" data-nom="Coursimault Rénovation">
+  <a href="coursimaultrenovation/" target="_blank" rel="noopener">
+    <img src="vignettes/coursimaultrenovation.jpg" alt="Aperçu de la maquette Coursimault Rénovation" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Coursimault Rénovation</div>
+    <div class="ville">Viarmes · Asnières-sur-Oise, Belloy-en-France, Chaumontel</div>
+    <div class="tags"><span class="tag">6 prestations</span><span class="tag">12 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    <div class='manques'><ul><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="coursimaultrenovation/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.coursimaultrenovation.fr" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Viarmes, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/coursimaultrenovation
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="couverture zinguerie roger cuillière mouans-sartoux rogercuilliere" data-manques="1" data-nom="Couverture Zinguerie Roger Cuillière">
+  <a href="rogercuilliere/" target="_blank" rel="noopener">
+    <img src="vignettes/rogercuilliere.jpg" alt="Aperçu de la maquette Couverture Zinguerie Roger Cuillière" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Couverture Zinguerie Roger Cuillière</div>
+    <div class="ville">Mouans-Sartoux · La Roquette-sur-Siagne, Mougins, Auribeau-sur-Siagne</div>
+    <div class="tags"><span class="tag">7 prestations</span><span class="tag">6 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="rogercuilliere/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.rogercuilliere.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Mouans-Sartoux, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/rogercuilliere
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="couvreur - démoussage &amp; peinture toiture saint-yrieix-la-perche couvreur87toiturepeinture" data-manques="1" data-nom="Couvreur - Démoussage &amp; Peinture Toiture">
+  <a href="couvreur87toiturepeinture/" target="_blank" rel="noopener">
+    <img src="vignettes/couvreur87toiturepeinture.jpg" alt="Aperçu de la maquette Couvreur - Démoussage &amp; Peinture Toiture" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Couvreur - Démoussage &amp; Peinture Toiture</div>
+    <div class="ville">Saint-Yrieix-la-Perche · Coussac-Bonneval, Bussière-Galant, Nexon</div>
+    <div class="tags"><span class="tag">3 prestations</span><span class="tag">7 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="couvreur87toiturepeinture/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://couvreur87toiturepeinture.ovh/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Saint-Yrieix-la-Perche, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/couvreur87toiturepeinture
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="couvreur 87 - démoussage, peinture, entretien aixe-sur-vienne couvreur-aixe-demoussage" data-manques="1" data-nom="Couvreur 87 - Démoussage, Peinture, Entretien">
+  <a href="couvreur-aixe-demoussage/" target="_blank" rel="noopener">
+    <img src="vignettes/couvreur-aixe-demoussage.jpg" alt="Aperçu de la maquette Couvreur 87 - Démoussage, Peinture, Entretien" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Couvreur 87 - Démoussage, Peinture, Entretien</div>
+    <div class="ville">Aixe-sur-Vienne · Saint-Priest-sous-Aixe, Verneuil-sur-Vienne, Isle</div>
+    <div class="tags"><span class="tag">3 prestations</span><span class="tag">7 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="couvreur-aixe-demoussage/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://couvreur-aixe-demoussage.ovh/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Aixe-sur-Vienne, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/couvreur-aixe-demoussage
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="couvreur apt apt letoitdeprovencecouvertureapt" data-manques="1" data-nom="Couvreur Apt">
+  <a href="letoitdeprovencecouvertureapt/" target="_blank" rel="noopener">
+    <img src="vignettes/letoitdeprovencecouvertureapt.jpg" alt="Aperçu de la maquette Couvreur Apt" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Couvreur Apt</div>
+    <div class="ville">Apt · Gargas, Roussillon, Saint-Saturnin-lès-Apt</div>
+    <div class="tags"><span class="tag">4 prestations</span><span class="tag">4 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="letoitdeprovencecouvertureapt/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://letoitdeprovencecouvertureapt.ovh/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Apt, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/letoitdeprovencecouvertureapt
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="couvreur dirac dirac atelierdirac-peinturefacade-tapisserie-gouttiere-zinguerie" data-manques="1" data-nom="Couvreur Dirac">
+  <a href="atelierdirac-peinturefacade-tapisserie-gouttiere-zinguerie/" target="_blank" rel="noopener">
+    <img src="vignettes/atelierdirac-peinturefacade-tapisserie-gouttiere-zinguerie.jpg" alt="Aperçu de la maquette Couvreur Dirac" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Couvreur Dirac</div>
+    <div class="ville">Dirac · Garat, Soyaux, Puymoyen</div>
+    <div class="tags"><span class="tag">5 prestations</span><span class="tag">4 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="atelierdirac-peinturefacade-tapisserie-gouttiere-zinguerie/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://atelierdirac-peinturefacade-tapisserie-gouttiere-zinguerie.ovh/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Dirac, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/atelierdirac-peinturefacade-tapisserie-gouttiere-zinguerie
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="couvreur léognan couverture du 33 : demoussage toiture, recherche fuite, reparation gouttieres léognan couvreurleognancouverturedu33" data-manques="1" data-nom="Couvreur Léognan Couverture du 33 : Demoussage Toiture, Recherche Fuite, Reparation Gouttieres">
+  <a href="couvreurleognancouverturedu33/" target="_blank" rel="noopener">
+    <img src="vignettes/couvreurleognancouverturedu33.jpg" alt="Aperçu de la maquette Couvreur Léognan Couverture du 33 : Demoussage Toiture, Recherche Fuite, Reparation Gouttieres" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Couvreur Léognan Couverture du 33 : Demoussage Toiture, Recherche Fuite, Reparation Gouttieres</div>
+    <div class="ville">Léognan · Martillac, Gradignan, Canéjan</div>
+    <div class="tags"><span class="tag">1 prestation</span><span class="tag">4 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>seulement 1 prestation(s) reprise(s)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="couvreurleognancouverturedu33/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://couvreurleognancouverturedu33.ovh" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Léognan, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/couvreurleognancouverturedu33
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="couvreur valréas : isolation et étanchéité provençale du toit, démoussage toiture, peinture façade, rénovation toit valréas isolationetancheiteprovencaledutoit" data-manques="1" data-nom="Couvreur Valréas : Isolation et Étanchéité Provençale du Toit, Démoussage Toiture, Peinture Façade, Rénovation Toit">
+  <a href="isolationetancheiteprovencaledutoit/" target="_blank" rel="noopener">
+    <img src="vignettes/isolationetancheiteprovencaledutoit.jpg" alt="Aperçu de la maquette Couvreur Valréas : Isolation et Étanchéité Provençale du Toit, Démoussage Toiture, Peinture Façade, Rénovation Toit" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Couvreur Valréas : Isolation et Étanchéité Provençale du Toit, Démoussage Toiture, Peinture Façade, Rénovation Toit</div>
+    <div class="ville">Valréas · Grillon, Visan, Taulignan</div>
+    <div class="tags"><span class="tag">3 prestations</span><span class="tag">4 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="isolationetancheiteprovencaledutoit/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://isolationetancheiteprovencaledutoit.fr" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Valréas, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/isolationetancheiteprovencaledutoit
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="couvreur vœuil-et-giget - demoussage toiture - nettoyage toit - façadier - peinture interieure vœuil-et-giget jp-peintre-voeuil-et-giget-nettoyagetoit-facadier" data-manques="1" data-nom="Couvreur Vœuil-et-Giget - Demoussage Toiture - Nettoyage Toit - Façadier - Peinture interieure">
+  <a href="jp-peintre-voeuil-et-giget-nettoyagetoit-facadier/" target="_blank" rel="noopener">
+    <img src="vignettes/jp-peintre-voeuil-et-giget-nettoyagetoit-facadier.jpg" alt="Aperçu de la maquette Couvreur Vœuil-et-Giget - Demoussage Toiture - Nettoyage Toit - Façadier - Peinture interieure" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Couvreur Vœuil-et-Giget - Demoussage Toiture - Nettoyage Toit - Façadier - Peinture interieure</div>
+    <div class="ville">Vœuil-et-Giget · Puymoyen, La Couronne, Mouthiers-sur-Boëme</div>
+    <div class="tags"><span class="tag">5 prestations</span><span class="tag">5 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="jp-peintre-voeuil-et-giget-nettoyagetoit-facadier/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://jp-peintre-voeuil-et-giget-nettoyagetoit-facadier.ovh" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Vœuil-et-Giget, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/jp-peintre-voeuil-et-giget-nettoyagetoit-facadier
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="drones d&#x27;allier neuvy dronesallier" data-manques="1" data-nom="DRONES D&#x27;ALLIER">
+  <a href="dronesallier/" target="_blank" rel="noopener">
+    <img src="vignettes/dronesallier.jpg" alt="Aperçu de la maquette DRONES D&#x27;ALLIER" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">DRONES D&#x27;ALLIER</div>
+    <div class="ville">Neuvy · Moulins, Avermes, Trévol</div>
+    <div class="tags"><span class="tag">1 prestation</span><span class="tag">5 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>seulement 1 prestation(s) reprise(s)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="dronesallier/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.dronesallier.com" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Neuvy, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/dronesallier
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="elite couverture blanquefort elitecouverture" data-manques="1" data-nom="Elite Couverture">
+  <a href="elitecouverture/" target="_blank" rel="noopener">
+    <img src="vignettes/elitecouverture.jpg" alt="Aperçu de la maquette Elite Couverture" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Elite Couverture</div>
+    <div class="ville">Blanquefort · Bruges, Parempuyre, Le Taillan-Médoc</div>
+    <div class="tags"><span class="tag">8 prestations</span><span class="tag">5 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="elitecouverture/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.elitecouverture.com" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Blanquefort, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/elitecouverture
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="entreprise brisacier - velux installateur conseil expert herblay-sur-seine entreprise-brisacier" data-manques="1" data-nom="Entreprise Brisacier - VELUX Installateur Conseil Expert">
+  <a href="entreprise-brisacier/" target="_blank" rel="noopener">
+    <img src="vignettes/entreprise-brisacier.jpg" alt="Aperçu de la maquette Entreprise Brisacier - VELUX Installateur Conseil Expert" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Entreprise Brisacier - VELUX Installateur Conseil Expert</div>
+    <div class="ville">Herblay-sur-Seine · Pierrelaye, Beauchamp, Montigny-lès-Cormeilles</div>
+    <div class="tags"><span class="tag">1 prestation</span><span class="tag">11 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    <div class='manques'><ul><li>seulement 1 prestation(s) reprise(s)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="entreprise-brisacier/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.entreprise-brisacier.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Herblay-sur-Seine, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/entreprise-brisacier
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="entreprise troisgros cormeilles-en-parisis entreprisetroisgros" data-manques="1" data-nom="Entreprise Troisgros">
+  <a href="entreprisetroisgros/" target="_blank" rel="noopener">
+    <img src="vignettes/entreprisetroisgros.jpg" alt="Aperçu de la maquette Entreprise Troisgros" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Entreprise Troisgros</div>
+    <div class="ville">Cormeilles-en-Parisis · La Frette-sur-Seine, Franconville, Montigny-lès-Cormeilles</div>
+    <div class="tags"><span class="tag">1 prestation</span><span class="tag">22 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    <div class='manques'><ul><li>seulement 1 prestation(s) reprise(s)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="entreprisetroisgros/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="http://www.entreprisetroisgros.fr" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Cormeilles-en-Parisis, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/entreprisetroisgros
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="expert toit srl grâce-hollogne expert-toit" data-manques="1" data-nom="EXPERT TOIT SRL">
+  <a href="expert-toit/" target="_blank" rel="noopener">
+    <img src="vignettes/expert-toit.jpg" alt="Aperçu de la maquette EXPERT TOIT SRL" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">EXPERT TOIT SRL</div>
+    <div class="ville">Grâce-Hollogne · Hollogne-aux-Pierres, Mons-lez-Liège, Grâce-Berleur</div>
+    <div class="tags"><span class="tag">4 prestations</span><span class="tag">22 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    <div class='manques'><ul><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="expert-toit/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.expert-toit.eu/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un toiturier à Grâce-Hollogne, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/expert-toit
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="f. bourgeois entreprise miribel bourgeois-entreprise" data-manques="1" data-nom="F. Bourgeois Entreprise">
+  <a href="bourgeois-entreprise/" target="_blank" rel="noopener">
+    <img src="vignettes/bourgeois-entreprise.jpg" alt="Aperçu de la maquette F. Bourgeois Entreprise" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">F. Bourgeois Entreprise</div>
+    <div class="ville">Miribel · Neyron, Saint-Maurice-de-Beynost, Tramoyes</div>
+    <div class="tags"><span class="tag">1 prestation</span><span class="tag">7 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>seulement 1 prestation(s) reprise(s)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="bourgeois-entreprise/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.bourgeois-entreprise.fr" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Miribel, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/bourgeois-entreprise
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="gabati s.a. ixelles gabati" data-manques="1" data-nom="Gabati s.a.">
+  <a href="gabati/" target="_blank" rel="noopener">
+    <img src="vignettes/gabati.jpg" alt="Aperçu de la maquette Gabati s.a." loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Gabati s.a.</div>
+    <div class="ville">Ixelles · Etterbeek, Saint-Gilles, Bruxelles</div>
+    <div class="tags"><span class="tag">5 prestations</span><span class="tag">4 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="gabati/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="http://www.gabati.be" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un toiturier à Ixelles, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/gabati
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="generale couverture étanchéité toiture berchem-sainte-agathe generalecouvertureetancheitetoiture" data-manques="1" data-nom="GENERALE COUVERTURE ÉTANCHÉITÉ TOITURE">
+  <a href="generalecouvertureetancheitetoiture/" target="_blank" rel="noopener">
+    <img src="vignettes/generalecouvertureetancheitetoiture.jpg" alt="Aperçu de la maquette GENERALE COUVERTURE ÉTANCHÉITÉ TOITURE" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">GENERALE COUVERTURE ÉTANCHÉITÉ TOITURE</div>
+    <div class="ville">Berchem-Sainte-Agathe · Ganshoren, Molenbeek-Saint-Jean, Koekelberg</div>
+    <div class="tags"><span class="tag">4 prestations</span><span class="tag">11 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    <div class='manques'><ul><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="generalecouvertureetancheitetoiture/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://generalecouvertureetancheitetoiture.ovh" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un toiturier à Berchem-Sainte-Agathe, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/generalecouvertureetancheitetoiture
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="herzlich willkommen bei bautec-gb.online eupen bautec-euregio" data-manques="1" data-nom="Herzlich Willkommen bei BauTec-GB.Online">
+  <a href="bautec-euregio/" target="_blank" rel="noopener">
+    <img src="vignettes/bautec-euregio.jpg" alt="Aperçu de la maquette Herzlich Willkommen bei BauTec-GB.Online" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Herzlich Willkommen bei BauTec-GB.Online</div>
+    <div class="ville">Eupen · Kettenis, Baelen, Walhorn</div>
+    <div class="tags"><span class="tag">3 prestations</span><span class="tag">9 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>prestations retrouvées hors page d’accueil (termes employés dans leur texte)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>site source en ALLEMAND : la maquette, elle, est en français</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="bautec-euregio/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://bautec-euregio.com/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un toiturier à Eupen, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/bautec-euregio
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="holzbau &amp; bedachungen reims raeren bauschreinerei-reims" data-manques="1" data-nom="Holzbau &amp; Bedachungen Reims">
+  <a href="bauschreinerei-reims/" target="_blank" rel="noopener">
+    <img src="vignettes/bauschreinerei-reims.jpg" alt="Aperçu de la maquette Holzbau &amp; Bedachungen Reims" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Holzbau &amp; Bedachungen Reims</div>
+    <div class="ville">Raeren · Eynatten, Walhorn, Kettenis</div>
+    <div class="tags"><span class="tag">5 prestations</span><span class="tag">9 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>prestations retrouvées hors page d’accueil (termes employés dans leur texte)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li><li>site source en ALLEMAND : la maquette, elle, est en français</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="bauschreinerei-reims/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://bauschreinerei-reims.com" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un toiturier à Raeren, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/bauschreinerei-reims
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="imitation tuile stains imitationtuile" data-manques="1" data-nom="IMITATION TUILE">
+  <a href="imitationtuile/" target="_blank" rel="noopener">
+    <img src="vignettes/imitationtuile.jpg" alt="Aperçu de la maquette IMITATION TUILE" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">IMITATION TUILE</div>
+    <div class="ville">Stains · Garges-lès-Gonesse, Saint-Denis, La Courneuve</div>
+    <div class="tags"><span class="tag">1 prestation</span><span class="tag rouge">0 photo</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>seulement 1 prestation(s) reprise(s)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="imitationtuile/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.imitationtuile.com/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Stains, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/imitationtuile
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="jarod peinture artisan charentais peintre angoulême int/ext peinture 7j7 nettoyage toiture gond-pontouvre jarod-peinture" data-manques="1" data-nom="Jarod Peinture Artisan Charentais Peintre Angoulême int/ext Peinture 7j7 nettoyage toiture">
+  <a href="jarod-peinture/" target="_blank" rel="noopener">
+    <img src="vignettes/jarod-peinture.jpg" alt="Aperçu de la maquette Jarod Peinture Artisan Charentais Peintre Angoulême int/ext Peinture 7j7 nettoyage toiture" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Jarod Peinture Artisan Charentais Peintre Angoulême int/ext Peinture 7j7 nettoyage toiture</div>
+    <div class="ville">Gond-Pontouvre · Saint-Yrieix-sur-Charente, L&#x27;Isle-d&#x27;Espagnac, Angoulême</div>
+    <div class="tags"><span class="tag">8 prestations</span><span class="tag">16 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    <div class='manques'><ul><li>prestations retrouvées hors page d’accueil (termes employés dans leur texte)</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="jarod-peinture/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://jarod-peinture.fr" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Gond-Pontouvre, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/jarod-peinture
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="kaori constructions isle kaori-constructions" data-manques="1" data-nom="kaori constructions">
+  <a href="kaori-constructions/" target="_blank" rel="noopener">
+    <img src="vignettes/kaori-constructions.jpg" alt="Aperçu de la maquette kaori constructions" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">kaori constructions</div>
+    <div class="ville">Isle · Condat-sur-Vienne, Bosmie-l&#x27;Aiguille, Aixe-sur-Vienne</div>
+    <div class="tags"><span class="tag">3 prestations</span><span class="tag">5 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="kaori-constructions/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://kaori-constructions.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Isle, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/kaori-constructions
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="la charpenterie de la benoite carqueiranne charpenterie-labenoite" data-manques="1" data-nom="La Charpenterie de la Benoite">
+  <a href="charpenterie-labenoite/" target="_blank" rel="noopener">
+    <img src="vignettes/charpenterie-labenoite.jpg" alt="Aperçu de la maquette La Charpenterie de la Benoite" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">La Charpenterie de la Benoite</div>
+    <div class="ville">Carqueiranne · Le Pradet, La Garde, La Farlède</div>
+    <div class="tags"><span class="tag">8 prestations</span><span class="tag">4 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="charpenterie-labenoite/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.charpenterie-labenoite.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Carqueiranne, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/charpenterie-labenoite
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="lam charpente sorgues lam-charpente" data-manques="1" data-nom="Lam Charpente">
+  <a href="lam-charpente/" target="_blank" rel="noopener">
+    <img src="vignettes/lam-charpente.jpg" alt="Aperçu de la maquette Lam Charpente" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Lam Charpente</div>
+    <div class="ville">Sorgues · Sauveterre, Le Pontet, Bédarrides</div>
+    <div class="tags"><span class="tag">3 prestations</span><span class="tag">6 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="lam-charpente/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://lam-charpente.fr/5315/entreprise.html" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Sorgues, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/lam-charpente
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="le couvreur paris saint-maurice-montcouronne lecouvreurparis" data-manques="1" data-nom="Le couvreur Paris">
+  <a href="lecouvreurparis/" target="_blank" rel="noopener">
+    <img src="vignettes/lecouvreurparis.jpg" alt="Aperçu de la maquette Le couvreur Paris" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Le couvreur Paris</div>
+    <div class="ville">Saint-Maurice-Montcouronne · Saint-Chéron, Breuillet, Le Val-Saint-Germain</div>
+    <div class="tags"><span class="tag">1 prestation</span><span class="tag">6 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>seulement 1 prestation(s) reprise(s)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="lecouvreurparis/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://lecouvreurparis.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Saint-Maurice-Montcouronne, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/lecouvreurparis
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="lmb couvertures dammartin-en-goële lmb-couvertures" data-manques="1" data-nom="LMB Couvertures">
+  <a href="lmb-couvertures/" target="_blank" rel="noopener">
+    <img src="vignettes/lmb-couvertures.jpg" alt="Aperçu de la maquette LMB Couvertures" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">LMB Couvertures</div>
+    <div class="ville">Dammartin-en-Goële · Longperrier, Saint-Mard, Juilly</div>
+    <div class="tags"><span class="tag">10 prestations</span><span class="tag">9 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="lmb-couvertures/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.lmb-couvertures.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Dammartin-en-Goële, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/lmb-couvertures
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="maubert thierry la crouzille maubert-couverture" data-manques="1" data-nom="Maubert Thierry">
+  <a href="maubert-couverture/" target="_blank" rel="noopener">
+    <img src="vignettes/maubert-couverture.jpg" alt="Aperçu de la maquette Maubert Thierry" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Maubert Thierry</div>
+    <div class="ville">La Crouzille · Saint-Éloy-les-Mines, Durdat-Larequille, Commentry</div>
+    <div class="tags"><span class="tag">1 prestation</span><span class="tag">13 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    <div class='manques'><ul><li>seulement 1 prestation(s) reprise(s)</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="maubert-couverture/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://maubert-couverture.fr" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à La Crouzille, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/maubert-couverture
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="mcfe jouy-en-josas mcfe" data-manques="1" data-nom="mcfe">
+  <a href="mcfe/" target="_blank" rel="noopener">
+    <img src="vignettes/mcfe.jpg" alt="Aperçu de la maquette mcfe" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">mcfe</div>
+    <div class="ville">Jouy-en-Josas · Les Loges-en-Josas, Buc, Saclay</div>
+    <div class="tags"><span class="tag">1 prestation</span><span class="tag">22 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    <div class='manques'><ul><li>seulement 1 prestation(s) reprise(s)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="mcfe/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://mcfe.org/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Jouy-en-Josas, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/mcfe
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="messina etancheite marigny-saint-marcel messina-etancheite" data-manques="1" data-nom="MESSINA ETANCHEITE">
+  <a href="messina-etancheite/" target="_blank" rel="noopener">
+    <img src="vignettes/messina-etancheite.jpg" alt="Aperçu de la maquette MESSINA ETANCHEITE" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">MESSINA ETANCHEITE</div>
+    <div class="ville">Marigny-Saint-Marcel · Saint-Félix, Alby-sur-Chéran, Rumilly</div>
+    <div class="tags"><span class="tag">5 prestations</span><span class="tag">8 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="messina-etancheite/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.messina-etancheite.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Marigny-Saint-Marcel, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/messina-etancheite
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="partners batiment colombes partners-batiment" data-manques="1" data-nom="Partners Batiment">
+  <a href="partners-batiment/" target="_blank" rel="noopener">
+    <img src="vignettes/partners-batiment.jpg" alt="Aperçu de la maquette Partners Batiment" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Partners Batiment</div>
+    <div class="ville">Colombes · La Garenne-Colombes, Bois-Colombes, Bezons</div>
+    <div class="tags"><span class="tag">2 prestations</span><span class="tag">8 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>prestations retrouvées hors page d’accueil (pages internes)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="partners-batiment/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.partners-batiment.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Colombes, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/partners-batiment
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="plouvier und sohn pgmbh butgenbach plouvier-sprl" data-manques="1" data-nom="Plouvier und Sohn PgmbH">
+  <a href="plouvier-sprl/" target="_blank" rel="noopener">
+    <img src="vignettes/plouvier-sprl.jpg" alt="Aperçu de la maquette Plouvier und Sohn PgmbH" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Plouvier und Sohn PgmbH</div>
+    <div class="ville">Butgenbach · Elsenborn, Bullange, Robertville</div>
+    <div class="tags"><span class="tag">5 prestations</span><span class="tag">10 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>prestations retrouvées hors page d’accueil (termes employés dans leur texte)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li><li>site source en ALLEMAND : la maquette, elle, est en français</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="plouvier-sprl/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://plouvier-srl.com/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un toiturier à Butgenbach, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/plouvier-sprl
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="pro dépannage couvreur bergerac bergerac pro-depannage-couvreur-bergerac" data-manques="1" data-nom="Pro Dépannage Couvreur Bergerac">
+  <a href="pro-depannage-couvreur-bergerac/" target="_blank" rel="noopener">
+    <img src="vignettes/pro-depannage-couvreur-bergerac.jpg" alt="Aperçu de la maquette Pro Dépannage Couvreur Bergerac" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Pro Dépannage Couvreur Bergerac</div>
+    <div class="ville">Bergerac · Cours-de-Pile, Creysse, Lembras</div>
+    <div class="tags"><span class="tag">4 prestations</span><span class="tag">7 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="pro-depannage-couvreur-bergerac/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.pro-depannage-couvreur-bergerac.ovh" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Bergerac, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/pro-depannage-couvreur-bergerac
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="profil bois sarl saint-jean-d&#x27;aulps profilbois" data-manques="1" data-nom="Profil Bois Sarl">
+  <a href="profilbois/" target="_blank" rel="noopener">
+    <img src="vignettes/profilbois.jpg" alt="Aperçu de la maquette Profil Bois Sarl" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Profil Bois Sarl</div>
+    <div class="ville">Saint-Jean-d&#x27;Aulps · Abondance, Les Gets, Morzine</div>
+    <div class="tags"><span class="tag">5 prestations</span><span class="tag">5 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="profilbois/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.profilbois.com" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Saint-Jean-d&#x27;Aulps, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/profilbois
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="protoitures liège protoitures" data-manques="1" data-nom="Protoitures">
+  <a href="protoitures/" target="_blank" rel="noopener">
+    <img src="vignettes/protoitures.jpg" alt="Aperçu de la maquette Protoitures" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Protoitures</div>
+    <div class="ville">Liège · Glain, Tilleur, Saint-Nicolas</div>
+    <div class="tags"><span class="tag">3 prestations</span><span class="tag">12 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    <div class='manques'><ul><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="protoitures/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.protoitures.be" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un toiturier à Liège, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/protoitures
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="roof habitat charleroi roof-habitat" data-manques="1" data-nom="Roof Habitat">
+  <a href="roof-habitat/" target="_blank" rel="noopener">
+    <img src="vignettes/roof-habitat.jpg" alt="Aperçu de la maquette Roof Habitat" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Roof Habitat</div>
+    <div class="ville">Charleroi · Dampremy, Marcinelle, Lodelinsart</div>
+    <div class="tags"><span class="tag">6 prestations</span><span class="tag">14 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    <div class='manques'><ul><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="roof-habitat/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.roof-habitat.be" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un toiturier à Charleroi, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/roof-habitat
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="samuel galerin toiture marche-en-famenne toiture-galerin" data-manques="1" data-nom="Samuel Galerin Toiture">
+  <a href="toiture-galerin/" target="_blank" rel="noopener">
+    <img src="vignettes/toiture-galerin.jpg" alt="Aperçu de la maquette Samuel Galerin Toiture" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Samuel Galerin Toiture</div>
+    <div class="ville">Marche-en-Famenne · Waha, Aye, On</div>
+    <div class="tags"><span class="tag">9 prestations</span><span class="tag">9 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="toiture-galerin/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.toiture-galerin.be/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un toiturier à Marche-en-Famenne, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/toiture-galerin
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="sarl chagnol vincent saint-julien-du-serre chagnol" data-manques="1" data-nom="SARL CHAGNOL VINCENT">
+  <a href="chagnol/" target="_blank" rel="noopener">
+    <img src="vignettes/chagnol.jpg" alt="Aperçu de la maquette SARL CHAGNOL VINCENT" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">SARL CHAGNOL VINCENT</div>
+    <div class="ville">Saint-Julien-du-Serre · Ucel, Vesseaux, Saint-Privat</div>
+    <div class="tags"><span class="tag">5 prestations</span><span class="tag">5 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="chagnol/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.chagnol.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Saint-Julien-du-Serre, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/chagnol
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="sarl gros | maçonnerie et couverture à tonnay-charente tonnay-charente gros-maconnerie-couverture" data-manques="1" data-nom="Sarl GROS | maçonnerie et couverture à Tonnay-Charente">
+  <a href="gros-maconnerie-couverture/" target="_blank" rel="noopener">
+    <img src="vignettes/gros-maconnerie-couverture.jpg" alt="Aperçu de la maquette Sarl GROS | maçonnerie et couverture à Tonnay-Charente" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Sarl GROS | maçonnerie et couverture à Tonnay-Charente</div>
+    <div class="ville">Tonnay-Charente · Cabariot, Muron, Saint-Hippolyte</div>
+    <div class="tags"><span class="tag">8 prestations</span><span class="tag">7 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>prestations retrouvées hors page d’accueil (termes employés dans leur texte)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="gros-maconnerie-couverture/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://gros-maconnerie-couverture.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Tonnay-Charente, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/gros-maconnerie-couverture
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="sas guedeau chabrier nieul-sur-mer guedeau-chabrier" data-manques="1" data-nom="SAS GUEDEAU CHABRIER">
+  <a href="guedeau-chabrier/" target="_blank" rel="noopener">
+    <img src="vignettes/guedeau-chabrier.jpg" alt="Aperçu de la maquette SAS GUEDEAU CHABRIER" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">SAS GUEDEAU CHABRIER</div>
+    <div class="ville">Nieul-sur-Mer · L&#x27;Houmeau, Lagord, Marsilly</div>
+    <div class="tags"><span class="tag">2 prestations</span><span class="tag">17 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    <div class='manques'><ul><li>prestations retrouvées hors page d’accueil (pages internes)</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="guedeau-chabrier/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://guedeau-chabrier.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Nieul-sur-Mer, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/guedeau-chabrier
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="schmidal et fils le perchay schmidal-et-fils" data-manques="1" data-nom="Schmidal et Fils">
+  <a href="schmidal-et-fils/" target="_blank" rel="noopener">
+    <img src="vignettes/schmidal-et-fils.jpg" alt="Aperçu de la maquette Schmidal et Fils" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Schmidal et Fils</div>
+    <div class="ville">Le Perchay · Us, Chars, Marines</div>
+    <div class="tags"><span class="tag">3 prestations</span><span class="tag">22 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    <div class='manques'><ul><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="schmidal-et-fils/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.schmidal-et-fils.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Le Perchay, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/schmidal-et-fils
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="sebac villeneuve-le-roi sebac" data-manques="1" data-nom="SEBAC">
+  <a href="sebac/" target="_blank" rel="noopener">
+    <img src="vignettes/sebac.jpg" alt="Aperçu de la maquette SEBAC" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">SEBAC</div>
+    <div class="ville">Villeneuve-le-Roi · Orly, Ablon-sur-Seine, Athis-Mons</div>
+    <div class="tags"><span class="tag">4 prestations</span><span class="tag">6 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>prestations retrouvées hors page d’accueil (termes employés dans leur texte)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="sebac/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.sebac.net/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Villeneuve-le-Roi, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/sebac
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="so roof bordeaux saint-jean-d&#x27;illac so-roof" data-manques="1" data-nom="SO ROOF BORDEAUX">
+  <a href="so-roof/" target="_blank" rel="noopener">
+    <img src="vignettes/so-roof.jpg" alt="Aperçu de la maquette SO ROOF BORDEAUX" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">SO ROOF BORDEAUX</div>
+    <div class="ville">Saint-Jean-d&#x27;Illac · Martignas-sur-Jalle, Cestas, Saint-Médard-en-Jalles</div>
+    <div class="tags"><span class="tag">3 prestations</span><span class="tag">5 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="so-roof/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://so-roof.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Saint-Jean-d&#x27;Illac, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/so-roof
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="société moderne de charpente couverture smcc sas rillieux-la-pape smcc-rillieux" data-manques="1" data-nom="Société Moderne de Charpente Couverture SMCC SAS">
+  <a href="smcc-rillieux/" target="_blank" rel="noopener">
+    <img src="vignettes/smcc-rillieux.jpg" alt="Aperçu de la maquette Société Moderne de Charpente Couverture SMCC SAS" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Société Moderne de Charpente Couverture SMCC SAS</div>
+    <div class="ville">Rillieux-la-Pape · Sathonay-Camp, Sathonay-Village, Fontaines-sur-Saône</div>
+    <div class="tags"><span class="tag">5 prestations</span><span class="tag">7 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>prestations retrouvées hors page d’accueil (pages internes)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="smcc-rillieux/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.utb.fr" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Rillieux-la-Pape, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/smcc-rillieux
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="spatial couverture sainte-hélène-sur-isère spatialcouverture" data-manques="1" data-nom="Spatial Couverture">
+  <a href="spatialcouverture/" target="_blank" rel="noopener">
+    <img src="vignettes/spatialcouverture.jpg" alt="Aperçu de la maquette Spatial Couverture" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Spatial Couverture</div>
+    <div class="ville">Sainte-Hélène-sur-Isère · Frontenex, Grignon, Gilly-sur-Isère</div>
+    <div class="tags"><span class="tag">8 prestations</span><span class="tag">15 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    <div class='manques'><ul><li>prestations retrouvées hors page d’accueil (termes employés dans leur texte)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="spatialcouverture/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://spatialcouverture.com" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Sainte-Hélène-sur-Isère, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/spatialcouverture
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="terreceine saint-marcellin-en-forez isolation-biosourcee-loire" data-manques="1" data-nom="TERRECEINE">
+  <a href="isolation-biosourcee-loire/" target="_blank" rel="noopener">
+    <img src="vignettes/isolation-biosourcee-loire.jpg" alt="Aperçu de la maquette TERRECEINE" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">TERRECEINE</div>
+    <div class="ville">Saint-Marcellin-en-Forez · Périgneux, Boisset-Saint-Priest, Bonson</div>
+    <div class="tags"><span class="tag">5 prestations</span><span class="tag">15 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    <div class='manques'><ul><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="isolation-biosourcee-loire/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.isolation-biosourcee-loire.fr" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Saint-Marcellin-en-Forez, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/isolation-biosourcee-loire
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="toiture expert couvreur chasselay - demoussage - reparation fuite et gouttieres chasselay toiture-expertise-couvreur-chasselay" data-manques="1" data-nom="Toiture Expert Couvreur Chasselay - Demoussage - Reparation Fuite et Gouttieres">
+  <a href="toiture-expertise-couvreur-chasselay/" target="_blank" rel="noopener">
+    <img src="vignettes/toiture-expertise-couvreur-chasselay.jpg" alt="Aperçu de la maquette Toiture Expert Couvreur Chasselay - Demoussage - Reparation Fuite et Gouttieres" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Toiture Expert Couvreur Chasselay - Demoussage - Reparation Fuite et Gouttieres</div>
+    <div class="ville">Chasselay · Lissieu, Poleymieux-au-Mont-d&#x27;Or, Saint-Germain-au-Mont-d&#x27;Or</div>
+    <div class="tags"><span class="tag">2 prestations</span><span class="tag">4 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>seulement 2 prestation(s) reprise(s)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="toiture-expertise-couvreur-chasselay/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://toiture-expertise-couvreur-chasselay.ovh" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Chasselay, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/toiture-expertise-couvreur-chasselay
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="utb union technique du bâtiment romainville utb" data-manques="1" data-nom="utb Union Technique du Bâtiment">
+  <a href="utb/" target="_blank" rel="noopener">
+    <img src="vignettes/utb.jpg" alt="Aperçu de la maquette utb Union Technique du Bâtiment" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">utb Union Technique du Bâtiment</div>
+    <div class="ville">Romainville · Les Lilas, Noisy-le-Sec, Bagnolet</div>
+    <div class="tags"><span class="tag">5 prestations</span><span class="tag">7 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>prestations retrouvées hors page d’accueil (pages internes)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="utb/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.utb.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Romainville, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/utb
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="vaillant david, bâtiment la bruyère toituredavidvaillant" data-manques="1" data-nom="Vaillant David, Bâtiment">
+  <a href="toituredavidvaillant/" target="_blank" rel="noopener">
+    <img src="vignettes/toituredavidvaillant.jpg" alt="Aperçu de la maquette Vaillant David, Bâtiment" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Vaillant David, Bâtiment</div>
+    <div class="ville">La Bruyère · Le Roux, Falisolle, Aiseau</div>
+    <div class="tags"><span class="tag">2 prestations</span><span class="tag rouge">0 photo</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>seulement 2 prestation(s) reprise(s)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li><li>téléphone introuvable</li><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="toituredavidvaillant/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="http://www.toituredavidvaillant.be" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un toiturier à La Bruyère, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/toituredavidvaillant
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="val drôme charpentes crest valdromecharpentes-26" data-manques="1" data-nom="Val Drôme Charpentes">
+  <a href="valdromecharpentes-26/" target="_blank" rel="noopener">
+    <img src="vignettes/valdromecharpentes-26.jpg" alt="Aperçu de la maquette Val Drôme Charpentes" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Val Drôme Charpentes</div>
+    <div class="ville">Crest · Aouste-sur-Sye, Eurre, Upie</div>
+    <div class="tags"><span class="tag">4 prestations</span><span class="tag">6 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>moins de 3 photos exploitables : section Réalisations retirée</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="valdromecharpentes-26/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.valdromecharpentes-26.fr" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Crest, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/valdromecharpentes-26
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="vis &amp; versants toitures visé visetversantstoitures" data-manques="1" data-nom="Vis &amp; Versants Toitures">
+  <a href="visetversantstoitures/" target="_blank" rel="noopener">
+    <img src="vignettes/visetversantstoitures.jpg" alt="Aperçu de la maquette Vis &amp; Versants Toitures" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Vis &amp; Versants Toitures</div>
+    <div class="ville">Visé · Haccourt, Lixhe, Richelle</div>
+    <div class="tags"><span class="tag">12 prestations</span><span class="tag">16 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    <div class='manques'><ul><li>adresse postale introuvable (seule la ville est connue)</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="visetversantstoitures/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="http://visetversantstoitures.com" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un toiturier à Visé, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/visetversantstoitures
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="établissements augier val des vignes augier-construction" data-manques="1" data-nom="Établissements AUGIER">
+  <a href="augier-construction/" target="_blank" rel="noopener">
+    <img src="vignettes/augier-construction.jpg" alt="Aperçu de la maquette Établissements AUGIER" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Établissements AUGIER</div>
+    <div class="ville">Val des Vignes · Roullet-Saint-Estèphe, Bellevigne, Châteauneuf-sur-Charente</div>
+    <div class="tags"><span class="tag">1 prestation</span><span class="tag">10 photos</span><span class="tag">9 avis</span></div>
+    <div class='manques'><ul><li>seulement 1 prestation(s) reprise(s)</li><li>moins de 3 photos exploitables : section Réalisations retirée</li></ul></div>
+    <div class="actions">
+      <a class="primaire" href="augier-construction/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://augier-construction.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Val des Vignes, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/augier-construction
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="atelier michel toiture pro l&#x27;escarène atelier-michel-couvreur-toiture" data-manques="0" data-nom="Atelier Michel Toiture Pro">
+  <a href="atelier-michel-couvreur-toiture/" target="_blank" rel="noopener">
+    <img src="vignettes/atelier-michel-couvreur-toiture.jpg" alt="Aperçu de la maquette Atelier Michel Toiture Pro" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Atelier Michel Toiture Pro</div>
+    <div class="ville">L&#x27;Escarène · Berre-les-Alpes, Contes, Blausasc</div>
+    <div class="tags"><span class="tag">4 prestations</span><span class="tag">11 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    
+    <div class="actions">
+      <a class="primaire" href="atelier-michel-couvreur-toiture/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://atelier-michel-couvreur-toiture.ovh" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à L&#x27;Escarène, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/atelier-michel-couvreur-toiture
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="d.a.f couverture-bardage vichy daf-couverture" data-manques="0" data-nom="D.A.F COUVERTURE-BARDAGE">
+  <a href="daf-couverture/" target="_blank" rel="noopener">
+    <img src="vignettes/daf-couverture.jpg" alt="Aperçu de la maquette D.A.F COUVERTURE-BARDAGE" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">D.A.F COUVERTURE-BARDAGE</div>
+    <div class="ville">Vichy · Bellerive-sur-Allier, Creuzier-le-Vieux, Cusset</div>
+    <div class="tags"><span class="tag">4 prestations</span><span class="tag">17 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    
+    <div class="actions">
+      <a class="primaire" href="daf-couverture/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://daf-couverture.fr" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Vichy, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/daf-couverture
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="entreprise duvant couverture domont entreprise-duvant-couverture" data-manques="0" data-nom="Entreprise Duvant Couverture">
+  <a href="entreprise-duvant-couverture/" target="_blank" rel="noopener">
+    <img src="vignettes/entreprise-duvant-couverture.jpg" alt="Aperçu de la maquette Entreprise Duvant Couverture" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Entreprise Duvant Couverture</div>
+    <div class="ville">Domont · Moisselles, Bouffémont, Andilly</div>
+    <div class="tags"><span class="tag">3 prestations</span><span class="tag">15 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    
+    <div class="actions">
+      <a class="primaire" href="entreprise-duvant-couverture/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="http://www.entreprise-duvant-couverture.fr" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Domont, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/entreprise-duvant-couverture
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="flandres couverture bailleul flandres-couverture" data-manques="0" data-nom="Flandres Couverture">
+  <a href="flandres-couverture/" target="_blank" rel="noopener">
+    <img src="vignettes/flandres-couverture.jpg" alt="Aperçu de la maquette Flandres Couverture" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Flandres Couverture</div>
+    <div class="ville">Bailleul · Saint-Jans-Cappel, Méteren, Steenwerck</div>
+    <div class="tags"><span class="tag">5 prestations</span><span class="tag">20 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    
+    <div class="actions">
+      <a class="primaire" href="flandres-couverture/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.flandres-couverture.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Bailleul, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/flandres-couverture
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="franco c - charpente - couverture - ruy ruy-montceau franco-c" data-manques="0" data-nom="Franco C - Charpente - Couverture - Ruy">
+  <a href="franco-c/" target="_blank" rel="noopener">
+    <img src="vignettes/franco-c.jpg" alt="Aperçu de la maquette Franco C - Charpente - Couverture - Ruy" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Franco C - Charpente - Couverture - Ruy</div>
+    <div class="ville">Ruy-Montceau · Cessieu, Nivolas-Vermelle, Saint-Savin</div>
+    <div class="tags"><span class="tag">3 prestations</span><span class="tag">11 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    
+    <div class="actions">
+      <a class="primaire" href="franco-c/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://www.franco-c.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Ruy-Montceau, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/franco-c
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="fuites &amp; réparation rapide mont-de-marsan mont-de-marsan couvreurmontdemarsanfuitesreparationrapide" data-manques="0" data-nom="Fuites &amp; Réparation Rapide Mont-de-Marsan">
+  <a href="couvreurmontdemarsanfuitesreparationrapide/" target="_blank" rel="noopener">
+    <img src="vignettes/couvreurmontdemarsanfuitesreparationrapide.jpg" alt="Aperçu de la maquette Fuites &amp; Réparation Rapide Mont-de-Marsan" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Fuites &amp; Réparation Rapide Mont-de-Marsan</div>
+    <div class="ville">Mont-de-Marsan · Saint-Pierre-du-Mont, Bretagne-de-Marsan, Benquet</div>
+    <div class="tags"><span class="tag">4 prestations</span><span class="tag">11 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    
+    <div class="actions">
+      <a class="primaire" href="couvreurmontdemarsanfuitesreparationrapide/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://couvreurmontdemarsanfuitesreparationrapide.ovh/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Mont-de-Marsan, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/couvreurmontdemarsanfuitesreparationrapide
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="moriceau couverture sas eysines moriceau-couverture" data-manques="0" data-nom="Moriceau Couverture SAS">
+  <a href="moriceau-couverture/" target="_blank" rel="noopener">
+    <img src="vignettes/moriceau-couverture.jpg" alt="Aperçu de la maquette Moriceau Couverture SAS" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Moriceau Couverture SAS</div>
+    <div class="ville">Eysines · Le Haillan, Bruges, Le Bouscat</div>
+    <div class="tags"><span class="tag">4 prestations</span><span class="tag">11 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    
+    <div class="actions">
+      <a class="primaire" href="moriceau-couverture/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://moriceau-couverture.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Eysines, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/moriceau-couverture
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="proximité toiture pierrefeu du var pierrefeu-du-var proximitetoiturepierrefeuduvar" data-manques="0" data-nom="Proximité Toiture Pierrefeu du Var">
+  <a href="proximitetoiturepierrefeuduvar/" target="_blank" rel="noopener">
+    <img src="vignettes/proximitetoiturepierrefeuduvar.jpg" alt="Aperçu de la maquette Proximité Toiture Pierrefeu du Var" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Proximité Toiture Pierrefeu du Var</div>
+    <div class="ville">Pierrefeu-du-Var · Puget-Ville, Carnoules, Cuers</div>
+    <div class="tags"><span class="tag">4 prestations</span><span class="tag">11 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    
+    <div class="actions">
+      <a class="primaire" href="proximitetoiturepierrefeuduvar/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://proximitetoiturepierrefeuduvar.ovh" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Pierrefeu-du-Var, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/proximitetoiturepierrefeuduvar
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="sc peinture &amp; rénovation – peintre à chamonix, saint-gervais &amp; sallanches passy sc-peinture-et-renovation" data-manques="0" data-nom="SC Peinture &amp; Rénovation – Peintre à Chamonix, Saint-Gervais &amp; Sallanches">
+  <a href="sc-peinture-et-renovation/" target="_blank" rel="noopener">
+    <img src="vignettes/sc-peinture-et-renovation.jpg" alt="Aperçu de la maquette SC Peinture &amp; Rénovation – Peintre à Chamonix, Saint-Gervais &amp; Sallanches" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">SC Peinture &amp; Rénovation – Peintre à Chamonix, Saint-Gervais &amp; Sallanches</div>
+    <div class="ville">Passy · Les Houches, Domancy, Magland</div>
+    <div class="tags"><span class="tag">7 prestations</span><span class="tag">22 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    
+    <div class="actions">
+      <a class="primaire" href="sc-peinture-et-renovation/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="https://sc-peinture-et-renovation.fr/" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Passy, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/sc-peinture-et-renovation
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article>
+<article class="carte" data-rech="serre che toiture le monêtier-les-bains serrechetoiture" data-manques="0" data-nom="Serre Che Toiture">
+  <a href="serrechetoiture/" target="_blank" rel="noopener">
+    <img src="vignettes/serrechetoiture.jpg" alt="Aperçu de la maquette Serre Che Toiture" loading="lazy">
+  </a>
+  <div class="corps">
+    <div class="nom">Serre Che Toiture</div>
+    <div class="ville">Le Monêtier-les-Bains · Saint-Chaffrey, Briançon, Villar-Saint-Pancrace</div>
+    <div class="tags"><span class="tag">6 prestations</span><span class="tag">20 photos</span><span class="tag">9 avis</span><span class="tag">3 réalisations</span></div>
+    
+    <div class="actions">
+      <a class="primaire" href="serrechetoiture/" target="_blank" rel="noopener">Voir la maquette</a>
+      <button type="button" data-email>Email</button>
+      <a href="http://www.serrechetoiture.com" target="_blank" rel="noopener">Son site</a>
+    </div>
+  </div>
+  <template>Bonjour,
+
+Je suis tombé sur votre site ce matin en cherchant un couvreur à Le Monêtier-les-Bains, et je me suis dit qu&#x27;il pourrait avoir un petit coup de neuf.
+
+J&#x27;ai refait votre page d&#x27;accueil pour vous montrer ce que ça pourrait donner.
+Le résultat : https://joe-jns.github.io/prospects-demos/serrechetoiture
+
+Si ça vous parle, je vous explique en deux minutes ce que j&#x27;ai changé.
+
+Bonne journée,
+Joakim
+</template>
+</article></div>
+<p class="vide" id="rien" hidden>Aucune maquette ne correspond.</p>
+</div>
+<dialog id="dlg">
+  <div class="dlg-tete"><strong id="dlg-nom"></strong><span class="ville">email de prospection</span></div>
+  <pre id="dlg-txt"></pre>
+  <div class="dlg-pied">
+    <button id="fermer" type="button">Fermer</button>
+    <button id="copier" class="primaire" type="button">Copier</button>
+  </div>
+</dialog>
+<script>
+const cartes=[...document.querySelectorAll('.carte')];
+const q=document.getElementById('q');
+const filtres=[...document.querySelectorAll('.barre button[data-f]')];
+let actif='tous';
+function appliquer(){
+  const t=q.value.trim().toLowerCase();
+  let n=0;
+  for(const c of cartes){
+    const ok=(!t||c.dataset.rech.includes(t))
+      &&(actif==='tous'||(actif==='manques'&&c.dataset.manques==='1')
+        ||(actif==='complets'&&c.dataset.manques==='0'));
+    c.hidden=!ok; if(ok)n++;
+  }
+  document.getElementById('compte').textContent=n+' maquette'+(n>1?'s':'');
+}
+q.addEventListener('input',appliquer);
+for(const b of filtres) b.addEventListener('click',()=>{
+  actif=b.dataset.f; filtres.forEach(x=>x.setAttribute('aria-pressed',x===b)); appliquer();
+});
+const dlg=document.getElementById('dlg');
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-email]'); if(!b) return;
+  const c=b.closest('.carte');
+  document.getElementById('dlg-nom').textContent=c.dataset.nom;
+  document.getElementById('dlg-txt').textContent=c.querySelector('template').content.textContent;
+  dlg.showModal();
+});
+document.getElementById('copier').addEventListener('click',async()=>{
+  await navigator.clipboard.writeText(document.getElementById('dlg-txt').textContent);
+  const b=document.getElementById('copier'); const v=b.textContent;
+  b.textContent='Copié'; setTimeout(()=>b.textContent=v,1400);
+});
+document.getElementById('fermer').addEventListener('click',()=>dlg.close());
+appliquer();
+</script>
+</body></html>
